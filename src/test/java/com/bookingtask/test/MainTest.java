@@ -19,11 +19,11 @@ public class MainTest extends TestBase{
         driver.get(Constants.BASE_URL);
 
         MainPage mainPage = new MainPage(driver);
-        assertTrue(driver.getTitle().endsWith("единиц размещения по всему миру: отели и другие варианты. Забронируйте отель прямо сейчас!"));
+        assertTrue(driver.getTitle().matches("Booking\\.com: [\\d,]+ hotel and property listings worldwide\\. [\\d]+?\\+ million hotel reviews\\."));
         mainPage.enterWhereToGo(city).enterDates(Utils.getTodayDate(), Utils.getTodayDatePlusDays(duration));
 
         PropertyListPage propertiesPage = mainPage.clickCheckPrices();
-        assertTrue(driver.getTitle().startsWith("Booking.com: Отели по направлению"));
+        assertTrue(driver.getTitle().matches("Booking\\.com: Hotels in.+?Book your hotel now!"));
         List<Integer> prices = propertiesPage.sortByLowPrice().getPrices();
         assertEquals(prices, prices.stream().sorted().collect(Collectors.toList()));
     }
@@ -31,11 +31,11 @@ public class MainTest extends TestBase{
     @DataProvider(name = "testCities")
     public Object[][] createData1() {
         return new Object[][]{
-                {"Одесса", 14},
-                {"Киев", 21},
-                {"Нью-Йорк", 28},
-                {"Будапешт", 3},
-                {"Прага", 7}
+            {"Barcelona", 14},
+            {"Budapest", 21},
+            {"Prague", 28},
+            {"London", 3},
+            {"New York", 7}
         };
     }
 
